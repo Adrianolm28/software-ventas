@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: ventas
+  datasource:
+    url: jdbc:mysql://localhost:3309/bd_ventas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+app:
+  jwt:
+    secret: "w3ptcXmYT5raZuuEV9XRyUVShBtW0T1EhMvcF3H7lq2H0DPFfUWyJcCb6yhf47DstvSCdd5SVN+lcZinIA7Wbw=="
+    expiration-ms: 0
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
