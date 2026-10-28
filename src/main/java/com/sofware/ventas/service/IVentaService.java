@@ -7,6 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface IVentaService {
     Page<VentaDto> listarVentas(Pageable pageable);
     VentaDto obtenerVentaPorId(String id);
-    VentaDto registrarVenta(VentaDto ventaDto, String usernameVendedor); // Firma corregida
-    void eliminarVenta(String id);
+    VentaDto registrarVenta(VentaDto ventaDto, String usernameVendedor);
+    void cancelarVenta(String id);
 }

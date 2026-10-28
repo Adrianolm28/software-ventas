@@ -48,16 +48,23 @@ public class SecurityConfig {
                                 "/api/productos/**",
                                 "/api/clientes/**",
                                 "/api/ventas/**"
-                        ).hasRole("VENDEDOR")
+                        ).hasAnyRole("ADMIN", "VENDEDOR")
 
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/ventas/**",
                                 "/api/clientes/**"
-                        ).hasRole("VENDEDOR")
+                        ).hasAnyRole("ADMIN", "VENDEDOR")
+
+                        .requestMatchers(
+                                "/api/productos/**",
+                                "/api/categorias/**",
+                                "/api/clientes/**",
+                                "/api/usuarios/**",
+                                "/api/ventas/**"
+                        ).hasRole("ADMIN")
 
                         .requestMatchers("/api/**").denyAll()
-
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

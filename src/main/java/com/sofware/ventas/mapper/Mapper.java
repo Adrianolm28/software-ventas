@@ -2,6 +2,7 @@ package com.sofware.ventas.mapper;
 
 import com.sofware.ventas.dto.*;
 import com.sofware.ventas.entity.*;
+import com.sofware.ventas.enums.EstadoVenta;
 import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
@@ -79,6 +80,11 @@ public class Mapper {
         dto.setFecha(venta.getFecha());
         dto.setTotal(venta.getTotal());
         dto.setMetodoPago(venta.getMetodoPago() != null ? venta.getMetodoPago() : "EFECTIVO");
+        dto.setEstado(
+                venta.getEstado() != null
+                        ? venta.getEstado()
+                        : EstadoVenta.COMPLETADO
+        );
 
         if (venta.getCliente() != null) {
             dto.setIdCliente(venta.getCliente().getIdCliente());

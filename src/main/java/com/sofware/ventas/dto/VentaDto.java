@@ -1,5 +1,6 @@
 package com.sofware.ventas.dto;
 
+import com.sofware.ventas.enums.EstadoVenta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class VentaDto {
     private String idVenta;
     private String idCliente;
     private String metodoPago;
+    private EstadoVenta estado;
     private String idVendedor;
     private LocalDateTime fecha;
     private Double total;

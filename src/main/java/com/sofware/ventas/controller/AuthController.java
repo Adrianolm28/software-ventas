@@ -3,6 +3,7 @@ package com.sofware.ventas.controller;
 import com.sofware.ventas.dto.LoginRequest;
 import com.sofware.ventas.dto.LoginResponse;
 import com.sofware.ventas.entity.Usuario;
+import com.sofware.ventas.enums.RolUsuario;
 import com.sofware.ventas.repository.UsuarioRepository;
 import com.sofware.ventas.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class AuthController {
             Usuario u = usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
 
             System.out.println(">>> 3. Generando token...");
-            String rol = (u.getRol() != null) ? u.getRol().toUpperCase() : "ROLE_USER";
+            String rol = u.getRol() != null ? u.getRol().name(): RolUsuario.VENDEDOR.name();
             String token = jwtService.generarToken(u.getUsername(), rol);
 
             System.out.println(">>> 4. Login exitoso, retornando respuesta...");

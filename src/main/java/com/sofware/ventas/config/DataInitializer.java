@@ -1,6 +1,7 @@
 package com.sofware.ventas.config;
 
 import com.sofware.ventas.entity.Usuario;
+import com.sofware.ventas.enums.RolUsuario;
 import com.sofware.ventas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -16,18 +17,20 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        crearSiNoExiste("admin123", "admin123", "ADMIN");
-        crearSiNoExiste("administrador", "admin123", "ADMINISTRADOR");
-        crearSiNoExiste("vendedor", "vendedor123", "VENDEDOR");
+        crearUsuario("admin123", "admin123", RolUsuario.ADMIN);
+        crearUsuario("vendedor", "vendedor123", RolUsuario.VENDEDOR);
     }
 
-    private void crearSiNoExiste(String username, String password, String rol) {
-        if (usuarioRepository.findByUsername(username).isEmpty()) {
-            Usuario u = new Usuario();
-            u.setUsername(username);
-            u.setPassword(passwordEncoder.encode(password));
-            u.setRol(rol);
-            usuarioRepository.save(u);
+    private void crearUsuario(String username, String password, RolUsuario rol) {
+        Usuario usuario = usuarioRepository.findByUsername(username).orElse(null);
+
+        if (usuario == null) {
+            usuario = new Usuario();
+            usuario.setUsername(username);
+            usuario.setPassword(passwordEncoder.encode(password));
         }
+
+        usuario.setRol(rol);
+        usuarioRepository.save(usuario);
     }
 }

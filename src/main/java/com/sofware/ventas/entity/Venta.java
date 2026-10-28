@@ -1,5 +1,6 @@
 package com.sofware.ventas.entity;
 
+import com.sofware.ventas.enums.EstadoVenta;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,10 @@ public class Venta {
 
     @Column(name = "metodo_pago")
     private String metodoPago;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", length = 20)
+    private EstadoVenta estado = EstadoVenta.COMPLETADO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente", nullable = true)

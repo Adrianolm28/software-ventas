@@ -40,9 +40,9 @@ public class VentaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ventaGuardada);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarVenta(@PathVariable String id) {
-        ventaService.eliminarVenta(id);
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<Void> cancelarVenta(@PathVariable String id) {
+        ventaService.cancelarVenta(id);
         return ResponseEntity.noContent().build();
     }
 }
