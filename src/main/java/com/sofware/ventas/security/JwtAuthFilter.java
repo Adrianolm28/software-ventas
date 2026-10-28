@@ -40,7 +40,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 } catch (Exception ignored) {
-                    // usuario eliminado: se trata como no autenticado
                 }
             }
         }

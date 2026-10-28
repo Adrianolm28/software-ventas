@@ -1,0 +1,81 @@
+@startuml
+
+title Diagrama de Actividades - Registrar Venta
+
+skinparam shadowing false
+skinparam activity {
+    BackgroundColor #E8EAF6
+    BorderColor #3949AB
+    DiamondBackgroundColor #FFF3E0
+    DiamondBorderColor #FB8C00
+}
+
+start
+
+:Recibir VentaDto y usuario vendedor;
+
+if (¿La venta tiene productos?) then (Sí)
+
+    :Crear objeto Venta;
+    :Asignar fecha y método de pago;
+    :Buscar vendedor en UsuarioRepository;
+
+    if (¿Se indicó un cliente?) then (Sí)
+        :Buscar cliente en ClienteRepository;
+    else (No)
+        :Continuar sin cliente registrado;
+    endif
+
+    :Inicializar total de venta en cero;
+
+    while (¿Quedan productos por procesar?) is (Sí)
+
+        :Obtener siguiente detalle;
+
+        if (¿Producto y cantidad son válidos?) then (Sí)
+
+            :Buscar producto en ProductoRepository;
+
+            if (¿Producto está activo?) then (Sí)
+
+                if (¿Hay stock suficiente?) then (Sí)
+
+                    :Crear DetalleVenta;
+                    :Calcular subtotal;
+                    :Descontar cantidad del stock;
+                    :Guardar producto actualizado;
+                    :Agregar detalle a la venta;
+                    :Acumular subtotal al total;
+
+                else (No)
+                    :Rechazar por stock insuficiente;
+                    stop
+                endif
+
+            else (No)
+                :Rechazar producto inactivo;
+                stop
+            endif
+
+        else (No)
+            :Rechazar detalle inválido;
+            stop
+        endif
+
+    endwhile (No)
+
+    :Asignar total a la venta;
+    :Guardar venta en VentaRepository;
+    :Convertir venta a VentaDto;
+    :Devolver resultado;
+
+else (No)
+
+    :Rechazar venta sin productos;
+    stop
+
+endif
+
+stop
+
+@enduml

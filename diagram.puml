@@ -1,0 +1,88 @@
+@startuml
+
+title Diagrama de Clases - Sistema de Ventas
+
+left to right direction
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+class Producto {
+    - String idProducto
+    - Double precio
+    - String nombre
+    - String marca
+    - Integer stock
+    - Boolean estado
+    --
+    - Categoria categoria
+}
+
+class Categoria {
+    - Long idCategoria
+    - String nombre
+    - String descripcion
+}
+
+class Cliente {
+    - String idCliente
+    - String nombre
+    - String apellidos
+}
+
+class Usuario {
+    - String idUsuario
+    - String username
+    - String password
+    - RolUsuario rol
+}
+
+class Venta {
+    - String idVenta
+    - LocalDateTime fecha
+    - Double total
+    - String metodoPago
+    - EstadoVenta estado
+    --
+    - Cliente cliente
+    - Usuario vendedor
+    - List<DetalleVenta> detalles
+}
+
+class DetalleVenta {
+    - String idDetalle
+    - Integer cantidad
+    - Double precioUnitario
+    - Double subtotal
+    --
+    - Producto producto
+    - Venta venta
+}
+
+enum EstadoVenta {
+    COMPLETADO
+    CANCELADO
+}
+
+enum RolUsuario {
+    ADMIN
+    VENDEDOR
+}
+
+Producto "0..*" --> "0..1" Categoria : pertenece a
+
+Venta "0..*" --> "0..1" Cliente : cliente
+
+Venta "0..*" --> "1" Usuario : vendedor
+
+Venta "1" *-- "1..*" DetalleVenta : contiene
+
+DetalleVenta "0..*" --> "1" Producto : producto vendido
+
+Venta ..> EstadoVenta : estado
+
+Usuario ..> RolUsuario : rol
+
+@enduml
