@@ -19,27 +19,33 @@ public class Mapper {
     }
 
     public ProductoDto toDto(Producto producto) {
-        if (producto == null) return null;
+        if (producto == null) {
+            return null;
+        }
+
         ProductoDto dto = new ProductoDto();
+
         dto.setIdProducto(producto.getIdProducto());
         dto.setPrecio(producto.getPrecio());
         dto.setNombre(producto.getNombre());
+        dto.setMarca(producto.getMarca());
+        dto.setStock(producto.getStock());
         dto.setEstado(producto.getEstado());
 
         if (producto.getCategoria() != null) {
             dto.setCategoria(producto.getCategoria().getNombre());
             dto.setIdCategoria(producto.getCategoria().getIdCategoria());
         }
+
         return dto;
     }
-
     public UsuarioDto toDto(Usuario usuario){
         if (usuario == null) return null;
         UsuarioDto dto = new UsuarioDto();
         dto.setIdUsuario(usuario.getIdUsuario());
         dto.setUsername(usuario.getUsername());
         dto.setPassword(usuario.getPassword());
-        dto.setRol(usuario.getRol());
+        dto.setRol(usuario.getRol().name());
         return dto;
     }
 

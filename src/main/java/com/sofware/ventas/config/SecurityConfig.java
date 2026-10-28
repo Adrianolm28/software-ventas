@@ -42,12 +42,22 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/usuarios/**").hasAnyRole("ADMIN", "ADMINISTRADOR")
-                        .requestMatchers(HttpMethod.GET, "/api/ventas/**").hasAnyRole("ADMIN", "ADMINISTRADOR", "VENDEDOR")
-                        .requestMatchers(HttpMethod.POST, "/api/ventas/**").hasAnyRole("ADMIN", "VENDEDOR")
-                        .requestMatchers(HttpMethod.DELETE, "/api/ventas/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/productos/**", "/api/clientes/**").hasAnyRole("ADMIN", "ADMINISTRADOR", "VENDEDOR")
-                        .requestMatchers("/api/productos/**", "/api/clientes/**").hasAnyRole("ADMIN", "ADMINISTRADOR")
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/productos/**",
+                                "/api/clientes/**",
+                                "/api/ventas/**"
+                        ).hasRole("VENDEDOR")
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/ventas/**",
+                                "/api/clientes/**"
+                        ).hasRole("VENDEDOR")
+
+                        .requestMatchers("/api/**").denyAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -68,7 +78,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config
+    ) throws Exception {
         return config.getAuthenticationManager();
     }
 

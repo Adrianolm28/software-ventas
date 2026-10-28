@@ -1,5 +1,6 @@
 package com.sofware.ventas.entity;
 
+import com.sofware.ventas.enums.RolUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,7 @@ public class Usuario {
     private String idUsuario;
     private String username;
     private String password;
-    private String rol;
+
+    @Enumerated(EnumType.STRING)
+    private RolUsuario rol;
 }

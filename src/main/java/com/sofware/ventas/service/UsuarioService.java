@@ -2,6 +2,7 @@ package com.sofware.ventas.service;
 
 import com.sofware.ventas.dto.UsuarioDto;
 import com.sofware.ventas.entity.Usuario;
+import com.sofware.ventas.enums.RolUsuario;
 import com.sofware.ventas.mapper.Mapper;
 import com.sofware.ventas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setUsername(dto.getUsername());
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
-        usuario.setRol(dto.getRol().toUpperCase());
+        usuario.setRol(RolUsuario.VENDEDOR);
 
         return mapper.toDto(usuarioRepository.save(usuario));
     }
@@ -43,7 +44,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         usuario.setUsername(dto.getUsername());
-        usuario.setRol(dto.getRol().toUpperCase());
+        usuario.setRol(RolUsuario.VENDEDOR);
 
         if (dto.getPassword() != null && !dto.getPassword().trim().isEmpty()) {
             usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -56,10 +57,6 @@ public class UsuarioService {
     public void eliminarUsuario(String idUsuarioAEliminar, String rolSolicitante) {
         Usuario usuarioTarget = usuarioRepository.findById(idUsuarioAEliminar)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        if ("ADMINISTRADOR".equalsIgnoreCase(rolSolicitante) && "ADMIN".equalsIgnoreCase(usuarioTarget.getRol())) {
-            throw new SecurityException("Acceso Denegado: Un ADMINISTRADOR no puede eliminar a un ADMIN.");
-        }
 
         usuarioRepository.delete(usuarioTarget);
     }
